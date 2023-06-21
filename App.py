@@ -35,3 +35,23 @@ title_chain = LLMChain(llm=llm, prompt=title_template,verbose=True, output_key='
 script_chain = LLMChain(llm=llm, prompt=script_template,verbose=True, output_key='script',memory= script_memory)
 
 wiki = WikipediaAPIWrapper()
+
+
+#showTime
+
+if prompt:
+    title = title_chain.run(prompt)
+    wiki_research = wiki.run(prompt)
+    script = script_chain.run(title=title, wikipedia_research=wiki_research)
+
+    st.write(title)
+    st.write(script)
+
+    with st.expander('Title History'):
+        st.info(title_memory.buffer)
+
+    with st.expander('Script History'):
+        st.info(script_memory.buffer)
+
+    with st.expander('Wikipedia Research'):
+        st.info(wiki_research)
