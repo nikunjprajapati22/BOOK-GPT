@@ -8,11 +8,15 @@ from langchain.chains import LLMChain, SequentialChain
 from langchain.memory import ConversationBufferMemory
 from langchain.utilities import WikipediaAPIWrapper
 
-os.environ['OPENAI_API_KEY'] = Mykey
+llm = OpenAI(temperature=0, openai_api_key = Mykey,verbose=True)
+st.title('🦜🔗Book GPT ')
+file = st.file_uploader("Choose a Book from you have questions", accept_multiple_files=False)
+if file is not None:
+    file_details = {"FileName":file.name,"FileType":file.type}
+    #st.write(file_details)
+    file_path = os.path.abspath(file.name)
 
-#App framework
-st.title('🦜🔗 GPT ')
-prompt = st.text_input('plug in your Prompt here')
+#print(file_path)
 
 #prompt templates
 title_template = PromptTemplate(
@@ -55,7 +59,3 @@ if prompt:
 
     with st.expander('Wikipedia Research'):
         st.info(wiki_research)
-
-
-
-        
