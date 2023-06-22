@@ -18,16 +18,15 @@ if file is not None:
 
 #print(file_path)
 
-#prompt templates
-title_template = PromptTemplate(
-    input_variables = ['topic'],
-    template='write me a youtube video title about {topic}'
-)
 
-script_template = PromptTemplate(
-    input_variables = ['title', 'wikipedia_research'],
-    template='write me a youtube video script based on this title TITLE:{title} while leveraging this wikipedia research: {wikipedia_research}'
-)
+#prompt templates
+loader = TextLoader(file_path,encoding="utf8")
+doc = loader.load()
+#print(f'you have {len(doc)} document')
+#print(f'you have {len(doc[0].page_content)} characters in that document')
+
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=3000, chunk_overlap= 400)
+docs = text_splitter.split_documents(doc)
 
 #memory
 title_memory = ConversationBufferMemory(input_key = 'topic', memory_key = 'chat_history')
