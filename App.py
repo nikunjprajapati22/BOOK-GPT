@@ -35,6 +35,12 @@ num_total_characters = sum([len(x.page_content) for x in docs])
 #get your embeddings engine ready
 embeddings = OpenAIEmbeddings(openai_api_key = Mykey)
 
+#embed your documents and combine with the raw text in a pseudo db Note: this is call openai API
+docsearch = FAISS.from_documents(docs, embeddings)
+
+#creating retrievel engine
+qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever= docsearch.as_retriever())
+
 '''#memory
 title_memory = ConversationBufferMemory(input_key = 'topic', memory_key = 'chat_history')
 script_memory = ConversationBufferMemory(input_key = 'title', memory_key = 'chat_history')
