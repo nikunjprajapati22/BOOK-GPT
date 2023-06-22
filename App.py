@@ -41,6 +41,11 @@ docsearch = FAISS.from_documents(docs, embeddings)
 #creating retrievel engine
 qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever= docsearch.as_retriever())
 
+#it's time to ask question
+#query= "What does the author saying about his life?"
+query = st.text_input('ask me anything from this book')
+st.write(qa.run(query))
+
 '''#memory
 title_memory = ConversationBufferMemory(input_key = 'topic', memory_key = 'chat_history')
 script_memory = ConversationBufferMemory(input_key = 'title', memory_key = 'chat_history')
