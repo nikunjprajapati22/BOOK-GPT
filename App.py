@@ -28,7 +28,14 @@ doc = loader.load()
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=3000, chunk_overlap= 400)
 docs = text_splitter.split_documents(doc)
 
-#memory
+#get the total number of characters so we can average it later
+num_total_characters = sum([len(x.page_content) for x in docs])
+#print (f"Now you have {len(docs)} documents that have an average of {num_total_characters / len(docs):,.0f} characters (smaller pieces)")
+
+#get your embeddings engine ready
+embeddings = OpenAIEmbeddings(openai_api_key = Mykey)
+
+'''#memory
 title_memory = ConversationBufferMemory(input_key = 'topic', memory_key = 'chat_history')
 script_memory = ConversationBufferMemory(input_key = 'title', memory_key = 'chat_history')
 
@@ -58,3 +65,4 @@ if prompt:
 
     with st.expander('Wikipedia Research'):
         st.info(wiki_research)
+'''
